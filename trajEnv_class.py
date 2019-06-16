@@ -30,7 +30,7 @@ class traj_env():
 
 		#The agent starts at the beginning of trajectory, (0,0) sebeséggel
 		self.agent=agent(posx=self.trajectory.coordinatesX[0],posy=self.trajectory.coordinatesY[0],reward=0.0,velocity=np.zeros(2)) 
-		print("Agent's position is: ",self.agent.getPos())
+		print("Agent's position is: ",self.agent.get_pos())
 
 		#self.state_space = [self.agent.X,self.agent.Y,self.agent.velocity[0],self.agent.velocity[1]]
 		self.action_space = [0,1,2,3,4,5,6,7]
