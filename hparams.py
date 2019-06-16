@@ -4,24 +4,26 @@ Hyperparameters for the DDQN network
 @author: Pető Márk
 """
 
+# TODO variable metrics for some dependent hyperparameters
+
 # Screen resolution parameters & interpolation parameters
 sizeX = 640
 sizeY = 480
 spline_resolution = 13
 epsilon_confidence = 10
-checkpoint_division = 10
+checkpoint_division = 20
 
 # Training
 
 # appr. 1e4 is good
-num_episodes = 3000
+num_episodes = 2000
 
 # maximum steps for an episode
 num_steps = 700
 # experience replay buffer size (OpenAI DDQN: 5*10e4,ATARI DDQN: 10e6)
 buffer_size = 100000
-# ~50 000 used for exploration of the agent
-pre_train_steps = 50000
+# 42 000 is 60 episodes
+pre_train_steps = 42000
 save_frequeny = 500
 path = "./"
 
@@ -42,7 +44,8 @@ gamma = .99
 start_epsilon = 1
 # for epsilon-greedy exploration
 end_epsilon = 0.1
-steps_to_lessen_epsilon = 10000
+# equals to pre_train_steps
+steps_to_lessen_epsilon = 42000
 
 # currently not used
 episodic_reward_factor = 30

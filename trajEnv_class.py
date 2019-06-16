@@ -17,10 +17,10 @@ import hparams
 
 class traj_env():
 	def __init__(self,PMDP,sizeX,sizeY,epsilon):
-		self.sizeX=sizeX # final sizeX: trajOb().size + a little
-		self.sizeY=sizeY
-		self.actions=hparams.n_actions
-		self.epsilon=epsilon
+		self.sizeX = sizeX # final sizeX: trajOb().size + a little
+		self.sizeY = sizeY
+		self.actions = hparams.n_actions
+		self.epsilon = epsilon
 		self.trajectory=traj_obj(sizeX,sizeY,epsilon,"Jog pattern,right hip trajectory")
 
 		#Resize environment here:
@@ -65,18 +65,20 @@ class traj_env():
 		_state[3] = self.agent.velocity[1]
 		return _state
 
+	# TODO add maximum velocity constraint?
+	# TODO canvas update
 	def update_agent_pos(self):
-		#canvas update is not included
 		if(self.checkValidPos()):
-			nextX,nextY=self.agent.set_pos(self.agent.X+self.agent.velocity[0],self.agent.Y+self.agent.velocity[1])
-			return nextX,nextY
+			nextX,nextY = self.agent.set_pos(self.agent.X+self.agent.velocity[0], self.agent.Y+self.agent.velocity[1])
+			return nextX, nextY
 		else:
 			self.agent.reward=0.0
-			self.agent.X=self.trajectory.coordinatesX[0] # set position to initial position
-			self.agent.Y=self.trajectory.coordinatesY[0]
-			self.agent.max_x=self.trajectory.coordinatesX[0]
-			self.agent.velocity=np.zeros(2)
-			return self.agent.X,self.agent.Y #If the agent would like to move out of borders, I give back the orginial position instead
+			self.agent.X = self.trajectory.coordinatesX[0] # set position to initial position
+			self.agent.Y = self.trajectory.coordinatesY[0]
+			self.agent.max_x = self.trajectory.coordinatesX[0]
+			self.agent.velocity = np.zeros(2)
+			# If the agent would like to move out of borders, I give back the orginial position instead
+			return self.agent.X,self.agent.Y
 		
 
 	def accelerate_agent(self,direction): # agent will learn from 8 differenct accelerating actions
@@ -128,8 +130,9 @@ class traj_env():
 		return ind
 
 	def check_goal(self):
-		if(self.agent.get_pos()[0] == self.trajectory.get_goal()[0] and self.agent.get_pos()[1] == self.trajectory.get_goal()[1]):
-			self.agent.reward+=1000
+		if(self.agent.get_pos()[0] == self.trajectory.get_goal()[0] and
+				(self.agent.get_pos()[1] >= self.trajectory.get_goal()[1]-self.epsilon) or (self.agent.get_pos()[1] <= self.trajectory.get_goal()[1]+self.epsilon)):
+			self.agent.reward += 1000
 			return True
 		else:
 			return False
@@ -167,12 +170,9 @@ class traj_env():
 
 	def step(self,action):
 		self.update_agent_pos()
-		#print("Position and max_x:",self.agent.X,self.agent.Y,self.agent.max_x)
+		# print("Position and max_x:",self.agent.X,self.agent.Y,self.agent.max_x)
 		_state = np.zeros(4)
 		done = self.check_goal()
-
-		if(self.on_checkpoint()):
-			self.agent.reward+=10.0
 
 		if(self.check_within()):
 			if(self.agent.X > self.agent.max_x):
@@ -180,12 +180,15 @@ class traj_env():
 				self.agent.reward += 0.2
 		else:
 			if(self.checkValidPos()):
-				self.agent.reward-=0.8
+				self.agent.reward -= 1.2
 
 		#print("Done?: ",done)
 		
 		if(self.check_on_trajectory()==True and self.agent.X != self.trajectory.coordinatesX[0]):
-			self.agent.reward+=1.0
+			self.agent.reward += 1.0
+
+		if(self.on_checkpoint()):
+			self.agent.reward += 5.0
 
 		_state[0] = self.agent.X
 		_state[1] = self.agent.Y
