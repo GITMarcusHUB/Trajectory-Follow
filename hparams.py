@@ -29,12 +29,11 @@ path = "./"
 learning_rate = 5e-4
 # a.k.a number of experiences in the network
 batch_size = 64
-# frequency for updating Q values, the agent can select 8 actions and sense the position and velocity for every state
-update_freq = 8
 # rate of updating target network towards primary Q network, according to OpenAI baselines
 tau = 0.0001
-# after train_freq steps we update the agent with a TD-update step
-train_freq = 5
+# after train_freq steps we update the agent with a TD-update step,
+# frequency for updating Q values, the agent can select 8 actions and sense the position and velocity for every state
+train_freq = 8
 
 # Learning parameters
 n_actions = 8
