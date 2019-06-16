@@ -131,7 +131,7 @@ class traj_env():
 
 	def check_goal(self):
 		if(self.agent.get_pos()[0] == self.trajectory.get_goal()[0] and
-				(self.agent.get_pos()[1] >= self.trajectory.get_goal()[1]-self.epsilon) or (self.agent.get_pos()[1] <= self.trajectory.get_goal()[1]+self.epsilon)):
+				(self.agent.get_pos()[1] >= self.trajectory.get_goal()[1]-self.epsilon) and (self.agent.get_pos()[1] <= self.trajectory.get_goal()[1]+self.epsilon)):
 			self.agent.reward += 1000
 			return True
 		else:
