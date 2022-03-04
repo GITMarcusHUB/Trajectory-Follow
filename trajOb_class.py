@@ -11,14 +11,13 @@ from catmull_rom import catmull_rom
 from hparams import spline_resolution
 from hparams import checkpoint_division
 
-# TODO create docstrings
 
 class traj_obj():
 	def __init__(self,sizeX,sizeY,epsilon,name):
 
-		#trajectory is a numpy array
-		#sizeX, sizeY are the initial resolutions, which are further processed
-		#epsilon is the width of the confidence interval on the y axis
+		# trajectory is a numpy array
+		# sizeX, sizeY are the initial resolutions, which are further processed
+		# epsilon is the width of the confidence interval on the y axis
 
 		# Continuous trajectory interpolated with Centripetal Catmull-Rom spline
 		lowerx=np.load('jog_lower_x.npy')
@@ -26,7 +25,7 @@ class traj_obj():
 		lowerx=lowerx[1]*sizeX #right hip
 		lowery=lowery[1]*sizeY 
 		
-		#clear x axis offset due to video trimming
+		# clear x axis offset due to video trimming
 		lowerx = lowerx-lowerx[0]
 
 		yratio=sizeY/min(lowery) 
@@ -41,7 +40,7 @@ class traj_obj():
 		x_intpol = np.rint(x_intpol)
 		y_intpol = np.rint(y_intpol)
 
-		#Note that writing coordinates into tuples is a much mroe efficient way handling memory
+		# Note that writing coordinates into tuples is a much mroe efficient way handling memory
 		coordinates = []
 		for i in range(x_intpol.shape[0]):
 			coordinates.append((x_intpol[i],y_intpol[i]))
@@ -72,7 +71,7 @@ class traj_obj():
 				self.checkpoints.append(coordinates[i])
 		self.checkpoints = np.array(self.checkpoints)
 		
-		#print("Checkpoints: ",self.checkpoints)
+		# print("Checkpoints: ",self.checkpoints)
 
 		print("Trajectory has been created for ",self.name,".")
 	

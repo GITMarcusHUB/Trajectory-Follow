@@ -4,6 +4,7 @@ Creates for the half of the trainable variables an operator_holder
 @author: Pető Márk
 """
 
+
 def create_op_holder(tfVars,tau):
 	"""
 
@@ -16,6 +17,7 @@ def create_op_holder(tfVars,tau):
 	for idx,var in enumerate(tfVars[0:total_variables_num//2]): 
 		op_holder.append(tfVars[idx+total_variables_num//2].assign((var.value()*tau) + ((1-tau)*tfVars[idx+total_variables_num//2].value() )))
 	return op_holder 
+
 
 def update_target(op_holder,sess):
 	"""

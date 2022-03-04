@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 path = "./"
 
 rewards = np.load(path+"rewards_3000.npy")
-#rewards2 = np.load(path+"rewards_3000.npy")
-#rewards3 = np.load(path+"rewards_4000.npy")
-#rewards = np.concatenate((rewards1,rewards2))
-#rewards = np.concatenate((rewards,rewards3))
+# rewards2 = np.load(path+"rewards_3000.npy")
+# rewards3 = np.load(path+"rewards_4000.npy")
+# rewards = np.concatenate((rewards1,rewards2))
+# rewards = np.concatenate((rewards,rewards3))
 
 my_loss = [10.792346,0.016147058,159.67413,68.89854,219.4396,
 			14.145929,289.49112,358.44022,50.85872,141.59317,
